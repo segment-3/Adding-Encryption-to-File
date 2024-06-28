@@ -8,6 +8,7 @@ import os
 import glob
 import time
 import json
+from PyPDF2 import PdfReader, PdfWriter
 
 key = 'enigma'
 
@@ -22,16 +23,13 @@ print()
 #=======================================================================
 
 #define the files that will be encrypted later on
-def add_encryption(input_pdf, output_pdf, password):
-    from PyPDF2 import PdfFileReader, PdfFileWriter
-    
-# Create PDF File Reader and Writer objects
-    pdf_writer = PdfFileWriter()
-    pdf_reader = PdfFileReader(input_pdf)
+def add_encryption(input_pdf, output_pdf, password):    
+    pdf_writer = PdfWriter()
+    pdf_reader = PdfReader(input_pdf)
     
 # Copy each page from the Reader to Writer object 
-    for page in range(pdf_reader.getNumPages()):
-        pdf_writer.addPage(pdf_reader.getPage(page))
+    for page in range(len(pdf_reader.pages)):
+        pdf_writer.add_page(pdf_reader.pages[page])
         
 # Apply Encryption to the Write object using the key so it can be changed
     pdf_writer.encrypt(password)
@@ -64,8 +62,8 @@ if __name__ == '__main__' :
     pdfnames = glob.glob(indir + '/*.pdf')
 
 #=======================================================================
-    
-    # A divider
+
+# A divider
     print('-----------------------------------')
 
 #=======================================================================
@@ -95,7 +93,6 @@ if __name__ == '__main__' :
 #=======================================================================
 
 # Exit Message
-print()
 print('---------------------------------'.center(40))
 print('---          Complete         ---'.center(40))
 print('---------------------------------'.center(40))
