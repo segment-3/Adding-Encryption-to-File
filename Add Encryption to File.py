@@ -1,8 +1,5 @@
 # Drew Rochford
 # AIST 2120
-# Assignment 7
-# 04/27/2021
-# pdf_encryptinator_plus.py
 
 #=======================================================================
 
@@ -18,7 +15,6 @@ key = 'enigma'
 
 # Welcome User
 print('---------------------------------'.center(40))
-print('---      Lab Exercise 15      ---'.center(40))
 print('---     PDF Encryptinator     ---'.center(40))
 print('---------------------------------'.center(40))
 print()
@@ -38,7 +34,7 @@ def add_encryption(input_pdf, output_pdf, password):
         pdf_writer.addPage(pdf_reader.getPage(page))
         
 # Apply Encryption to the Write object using the key so it can be changed
-    pdf_writer.encrypt('key')
+    pdf_writer.encrypt(password)
     
 # Write output PDF files
     with open(output_pdf, 'wb') as fh:
@@ -54,6 +50,8 @@ if __name__ == '__main__' :
 # Source and Destination Folders (Relative Paths)
     indir = './source'
     outdir = './destination'
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
     print('-----------------------------------')
     print('Processing folder: '+indir)
     print('Visible files are:')
@@ -66,8 +64,8 @@ if __name__ == '__main__' :
     pdfnames = glob.glob(indir + '/*.pdf')
 
 #=======================================================================
-# A divider
-
+    
+    # A divider
     print('-----------------------------------')
 
 #=======================================================================
@@ -81,7 +79,7 @@ if __name__ == '__main__' :
         start = time.time()
         outfile = os.path.join(outdir,'encrypted_'+os.path.basename(pdf))
         print(' - ' + os.path.basename(outfile))
-        add_encryption(pdf,outfile,'enigma')
+        add_encryption(pdf,outfile,key)
         end = time.time()
         runtime = end - start       
         timedict[pdf] = "{:.2f}".format(runtime)
@@ -99,10 +97,7 @@ if __name__ == '__main__' :
 # Exit Message
 print()
 print('---------------------------------'.center(40))
-print('---      Assignment 7         ---'.center(40))
-print('---  PDF Encryptinator plus   ---'.center(40))
 print('---          Complete         ---'.center(40))
 print('---------------------------------'.center(40))
 
 #-----------------------------------------------------------------------
-# End Assignment 7
